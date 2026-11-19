@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Business Web Platform & Admin Dashboard — Mohammad Al-Hmoud</title>
+<style>
+  :root {
+    --navy: #0f172a;
+    --navy-soft: #1e293b;
+    --blue: #2563eb;
+    --blue-hover: #1d4ed8;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --ok-bg: #dcfce7;
+    --ok-text: #166534;
+    --wait-bg: #fef3c7;
+    --wait-text: #92400e;
+    --del-bg: #fee2e2;
+    --del-text: #dc2626;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* Top Navigation */
+  .navbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+  }
+
+  .nav-inner {
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .brand-name {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .brand-role {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .mode-switch {
+    display: flex;
+    gap: 8px;
+    background: var(--navy-soft);
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  .mode-btn {
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+
+  .mode-btn.active {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 28px 24px 50px;
+  }
+
+  /* Hero Section (Public Website) */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 40px 34px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.14);
+    color: #bfdbfe;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    margin: 0 0 12px;
+    font-size: 28px;
+    line-height: 1.25;
+  }
+
+  .hero p {
+    margin: 0 0 20px;
+    color: #dbeafe;
+    font-size: 14px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+
+  .btn:hover {
+    background: #e2e8f0;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue-hover);
+  }
+
+  .btn-light {
+    background: #fff;
+    color: var(--navy);
+    border-color: #fff;
+  }
+
+  .btn-light:hover {
+    background: #eff6ff;
+  }
+
+  .hero-box {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .hero-box h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: #fff;
+  }
+
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .pill {
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Grid & Cards */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .section-head span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .cards-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+
+  .card p {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .price-tag {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+
+  /* Inquiry Form on Public Site */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .form-grid input,
+  .form-grid select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: #f8fafc;
+    color: var(--text);
+  }
+
+  .toast {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--ok-bg);
+    color: var(--ok-text);
+    font-size: 13px;
+    font-weight: 700;
+    display: none;
+  }
+
+  .toast.show {
+    display: block;
+  }
+
+  /* Admin Dashboard */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .kpi-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .kpi-val {
+    font-size: 25px;
+    font-weight: 800;
+    margin-top: 6px;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .toolbar input,
+  .toolbar select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: #f8fafc;
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .badge {
+    border: none;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .badge-Active {
+    background: var(--ok-bg);
+    color: var(--ok-text);
+  }
+
+  .badge-Pending {
+    background: var(--wait-bg);
+    color: var(--wait-text);
+  }
+
+  .btn-del {
+    border: none;
+    background: var(--del-bg);
+    color: var(--del-text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 28px 22px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">MH</div>
+      <div>
+        <div class="brand-name">Business Web Platform</div>
+        <div class="brand-role">Mohammad Al-Hmoud • Full-Stack Developer</div>
+      </div>
+    </div>
+
+    <div class="mode-switch">
+      <button class="mode-btn active" id="btnPublic" onclick="setMode('public')">Public Business Site</button>
+      <button class="mode-btn" id="btnAdmin" onclick="setMode('admin')">Admin Dashboard</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- PUBLIC BUSINESS WEBSITE VIEW -->
+  <div id="publicView">
+    <section class="hero">
+      <div>
+        <span class="hero-tag">● Live API Simulation Active</span>
+        <h1>Custom Business Web Platform & Admin Dashboard</h1>
+        <p>
+          Full-stack web experience combining a responsive public-facing business portal with a real-time
+          administrative dashboard to manage clients, services, and data records seamlessly.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-light" onclick="document.getElementById('requestSection').scrollIntoView({ behavior: 'smooth' })">
+            Request a Service
+          </button>
+          <button class="btn btn-primary" onclick="setMode('admin')">
+            Open Admin Dashboard →
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-box">
+        <h3>Architecture & Stack</h3>
+        <p style="font-size:13px; color:#cbd5e1; margin:0;">
+          Structured for smooth transition to production endpoints with instant local browser persistence for live client demos.
+        </p>
+        <div class="stack-pills">
+          <span class="pill">React</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML5 / CSS3</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">RESTful APIs</span>
+          <span class="pill">MySQL</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h2>Core Business Solutions</h2>
+      <span>Select any solution to pre-fill a service request</span>
+    </div>
+
+    <section class="cards-3" id="solutionsGrid"></section>
+
+    <section class="card" id="requestSection">
+      <h2 style="margin:0 0 12px; font-size:18px;">Submit Client & Service Record (Syncs with Admin)</h2>
+      <form class="form-grid" id="publicRequestForm">
+        <input type="text" id="pubName" placeholder="Client or Business Name" required>
+        <input type="text" id="pubContact" placeholder="Email or Phone (optional)">
+        <select id="pubService">
+          <option value="Full-Stack Web Platform" data-amount="2800">Full-Stack Web Platform ($2,800)</option>
+          <option value="Custom Admin & API System" data-amount="1900">Custom Admin & API System ($1,900)</option>
+          <option value="Database & Backend Architecture" data-amount="1450">Database & Backend Architecture ($1,450)</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Send to Admin Records</button>
+      </form>
+      <div class="toast" id="publicToast">✓ Record created and synced to Admin Dashboard!</div>
+    </section>
+  </div>
+
+  <!-- ADMIN DASHBOARD VIEW -->
+  <div id="adminView" class="hidden">
+    <div class="section-head">
+      <div>
+        <h2>Administrative Operations Dashboard</h2>
+        <span>Real-time client & service records via simulated REST API endpoints</span>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn" onclick="exportRecords()">Export JSON</button>
+        <button class="btn" onclick="resetRecords()">Reset Demo Data</button>
+      </div>
+    </div>
+
+    <section class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Total Records</div>
+        <div class="kpi-val" id="statTotal">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Active Clients</div>
+        <div class="kpi-val" id="statActive" style="color:#166534;">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Pending Requests</div>
+        <div class="kpi-val" id="statPending" style="color:#92400e;">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Total Contract Value</div>
+        <div class="kpi-val" id="statRevenue">$0</div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-bottom:20px;">
+      <h3 style="margin:0 0 12px;">Add New Record Directly</h3>
+      <form class="form-grid" id="adminAddForm">
+        <input type="text" id="admName" placeholder="Client / Business Name" required>
+        <input type="text" id="admContact" placeholder="Contact Info (optional)">
+        <select id="admService">
+          <option value="Full-Stack Web Platform" data-amount="2800">Full-Stack Web Platform ($2,800)</option>
+          <option value="Custom Admin & API System" data-amount="1900">Custom Admin & API System ($1,900)</option>
+          <option value="Database & Backend Architecture" data-amount="1450">Database & Backend Architecture ($1,450)</option>
+        </select>
+        <select id="admStatus">
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+        </select>
+        <button type="submit" class="btn btn-primary">+ Add Record</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="toolbar">
+        <input type="text" id="adminSearch" class="search-input" placeholder="Search by ID, client name, service, or contact...">
+        <select id="adminFilter">
+          <option value="ALL">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Service</th>
+              <th>Value</th>
+              <th>Status (Click to Toggle)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  const DB_KEY = 'mh_business_platform_records_v1';
+
+  const serviceCatalog = [
+    {
+      name: 'Full-Stack Web Platform',
+      amount: 2800,
+      desc: 'Responsive business website paired with a structured admin panel, API layer, and relational data flow.'
+    },
+    {
+      name: 'Custom Admin & API System',
+      amount: 1900,
+      desc: 'Tailored CRUD endpoints, live record filtering, status workflows, and clean operational reporting.'
+    },
+    {
+      name: 'Database & Backend Architecture',
+      amount: 1450,
+      desc: 'Scalable MySQL & Node.js data modeling designed for fast queries and reliable real-time operations.'
+    }
+  ];
+
+  const seedRecords = [
+    { id: 2001, name: 'Nordic Logistics Group', contact: 'ops@nordiclogistics.example', service: 'Full-Stack Web Platform', amount: 2800, status: 'Active' },
+    { id: 2002, name: 'BrightPath Commerce', contact: 'tech@brightpath.example', service: 'Custom Admin & API System', amount: 1900, status: 'Active' },
+    { id: 2003, name: 'Kestrel Health Systems', contact: 'it@kestrelhealth.example', service: 'Database & Backend Architecture', amount: 1450, status: 'Pending' }
+  ];
+
+  // Simulated REST API Endpoints
+  const ApiEndpoints = {
+    getRecords() {
+      const stored = localStorage.getItem(DB_KEY);
+      if (!stored) {
+        localStorage.setItem(DB_KEY, JSON.stringify(seedRecords));
+        return [...seedRecords];
+      }
+      return JSON.parse(stored);
+    },
+    save(list) {
+      localStorage.setItem(DB_KEY, JSON.stringify(list));
+    },
+    postRecord(item) {
+      const list = this.getRecords();
+      list.unshift(item);
+      this.save(list);
+      return list;
+    },
+    patchStatus(id) {
+      const list = this.getRecords().map(r =>
+        r.id === id ? { ...r, status: r.status === 'Active' ? 'Pending' : 'Active' } : r
+      );
+      this.save(list);
+      return list;
+    },
+    deleteRecord(id) {
+      const list = this.getRecords().filter(r => r.id !== id);
+      this.save(list);
+      return list;
+    },
+    resetAll() {
+      localStorage.setItem(DB_KEY, JSON.stringify(seedRecords));
+      return [...seedRecords];
+    }
+  };
+
+  let records = ApiEndpoints.getRecords();
+
+  function setMode(mode) {
+    const isAdmin = mode === 'admin';
+    document.getElementById('publicView').classList.toggle('hidden', isAdmin);
+    document.getElementById('adminView').classList.toggle('hidden', !isAdmin);
+    document.getElementById('btnPublic').classList.toggle('active', !isAdmin);
+    document.getElementById('btnAdmin').classList.toggle('active', isAdmin);
+    if (isAdmin) renderAdmin();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderSolutions() {
+    const grid = document.getElementById('solutionsGrid');
+    grid.innerHTML = serviceCatalog.map(item => `
+      <div class="card">
+        <h3>${escapeText(item.name)}</h3>
+        <p>${escapeText(item.desc)}</p>
+        <div class="price-tag">$${item.amount.toLocaleString()}</div>
+        <button class="btn btn-primary" onclick="selectService('${escapeText(item.name)}')">
+          Select Solution
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function selectService(serviceName) {
+    document.getElementById('pubService').value = serviceName;
+    document.getElementById('requestSection').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('pubName').focus();
+  }
+
+  function renderAdmin() {
+    const total = records.length;
+    const active = records.filter(r => r.status === 'Active').length;
+    const pending = records.filter(r => r.status === 'Pending').length;
+    const revenue = records.reduce((sum, r) => sum + Number(r.amount || 0), 0);
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statActive').textContent = active;
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statRevenue').textContent = '$' + revenue.toLocaleString();
+
+    const search = document.getElementById('adminSearch').value.trim().toLowerCase();
+    const filter = document.getElementById('adminFilter').value;
+
+    const filtered = records.filter(r => {
+      const okStatus = filter === 'ALL' || r.status === filter;
+      const okSearch =
+        !search ||
+        String(r.id).includes(search) ||
+        r.name.toLowerCase().includes(search) ||
+        r.service.toLowerCase().includes(search) ||
+        (r.contact || '').toLowerCase().includes(search);
+      return okStatus && okSearch;
+    });
+
+    const tbody = document.getElementById('adminTableBody');
+    if (!filtered.length) {
+      tbody.innerHTML = `<tr><td colspan="6" class="empty">No matching records found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(r => `
+      <tr>
+        <td><strong>#${r.id}</strong></td>
+        <td>
+          <strong>${escapeText(r.name)}</strong>
+          <div style="font-size:12px; color:#64748b;">${escapeText(r.contact || '—')}</div>
+        </td>
+        <td>${escapeText(r.service)}</td>
+        <td><strong>$${Number(r.amount || 0).toLocaleString()}</strong></td>
+        <td>
+          <button class="badge badge-${r.status}" onclick="toggleItem(${r.id})">${r.status}</button>
+        </td>
+        <td>
+          <button class="btn-del" onclick="deleteItem(${r.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function escapeText(value) {
+    const el = document.createElement('div');
+    el.textContent = String(value ?? '');
+    return el.innerHTML;
+  }
+
+  document.getElementById('publicRequestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nameEl = document.getElementById('pubName');
+    const contactEl = document.getElementById('pubContact');
+    const serviceEl = document.getElementById('pubService');
+
+    const name = nameEl.value.trim();
+    if (!name) return;
+
+    const amount = Number(serviceEl.selectedOptions[0]?.dataset.amount || 1900);
+    records = ApiEndpoints.postRecord({
+      id: Math.floor(2000 + Math.random() * 8000),
+      name,
+      contact: contactEl.value.trim(),
+      service: serviceEl.value,
+      amount,
+      status: 'Pending'
+    });
+
+    nameEl.value = '';
+    contactEl.value = '';
+    const toast = document.getElementById('publicToast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  });
+
+  document.getElementById('adminAddForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nameEl = document.getElementById('admName');
+    const contactEl = document.getElementById('admContact');
+    const serviceEl = document.getElementById('admService');
+    const statusEl = document.getElementById('admStatus');
+
+    const name = nameEl.value.trim();
+    if (!name) return;
+
+    const amount = Number(serviceEl.selectedOptions[0]?.dataset.amount || 1900);
+    records = ApiEndpoints.postRecord({
+      id: Math.floor(2000 + Math.random() * 8000),
+      name,
+      contact: contactEl.value.trim(),
+      service: serviceEl.value,
+      amount,
+      status: statusEl.value
+    });
+
+    nameEl.value = '';
+    contactEl.value = '';
+    renderAdmin();
+  });
+
+  function toggleItem(id) {
+    records = ApiEndpoints.patchStatus(id);
+    renderAdmin();
+  }
+
+  function deleteItem(id) {
+    records = ApiEndpoints.deleteRecord(id);
+    renderAdmin();
+  }
+
+  function resetRecords() {
+    records = ApiEndpoints.resetAll();
+    renderAdmin();
+  }
+
+  function exportRecords() {
+    const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'business-platform-records.json';
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('adminSearch').addEventListener('input', renderAdmin);
+  document.getElementById('adminFilter').addEventListener('change', renderAdmin);
+
+  renderSolutions();
+  renderAdmin();
+</script>
+
+</body>
+</html>
